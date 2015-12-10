@@ -23,7 +23,12 @@ module Sprockets
       map.map { |m| m[:source] }.uniq.compact.each do |source|
         # TODO: Resolve should expect fingerprints
         fingerprint = source[/-([0-9a-f]{7,128})\.[^.]+\z/, 1]
-        uri, _ = env.resolve!(source.sub("-#{fingerprint}", ""))
+
+        if fingerprint
+          source.sub!("-#{fingerprint}", "")
+        end
+
+        uri, _ = env.resolve!(source, pipeline: :source)
         links << env.load(uri).uri
       end
 

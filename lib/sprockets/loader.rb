@@ -156,7 +156,6 @@ module Sprockets
             metadata: {
               dependencies: dependencies,
               map: [
-                {source: source_path, generated: [0, 0], original: [0, 0]}
               ]
             }
           })

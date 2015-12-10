@@ -29,7 +29,7 @@ module Sprockets
 
       map = SourceMapUtils.combine_source_maps(
         input[:metadata][:map],
-        SourceMapUtils.decode_json_source_map(map)["mappings"]
+        change_source(SourceMapUtils.decode_json_source_map(map)["mappings"], input[:source_path])
       )
 
       context.metadata.merge(data: css, map: map)
@@ -44,13 +44,16 @@ module Sprockets
         load_paths: input[:environment].paths,
         importer: @importer_class,
         source_map_embed: true,
-        source_map_file: '.',
         sprockets: {
           context: context,
           environment: input[:environment],
           dependencies: context.metadata[:dependencies]
         }
       }
+    end
+
+    def change_source(mappings, source)
+      mappings.each { |m| m[:source] = source }
     end
   end
 
