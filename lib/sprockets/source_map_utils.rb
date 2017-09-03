@@ -71,10 +71,11 @@ module Sprockets
     #
     # Returns a new source map hash.
     def concat_source_maps(a, b)
-      p "##### DEBUG #########"
-      p a
-      p b
+      a = encode_source_map(a) if a.is_a?(Array)
+      b = encode_source_map(b) if b.is_a?(Array)
+
       return a || b unless a && b
+
       a, b = make_index_map(a), make_index_map(b)
 
       if a["sections"].count == 0 || a["sections"].last["map"]["mappings"].empty?
