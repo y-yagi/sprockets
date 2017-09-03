@@ -91,6 +91,8 @@ module Sprockets
         reducers.each do |k, (_, block)|
           value = k == :data ? asset.source : asset.metadata[k]
           if h.key?(k)
+            p "### process_bundle_reducers ###"
+            p value
             if !value.nil?
               h[k] = block.call(h[k], value)
             end
